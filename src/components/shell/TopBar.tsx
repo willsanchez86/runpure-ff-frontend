@@ -4,10 +4,51 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useFreshness } from "@/lib/api/hooks";
+import { IS_SAMPLE_MODE } from "@/lib/api/sources";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import styles from "./TopBar.module.css";
 
-const SAMPLE_MODE = process.env.NEXT_PUBLIC_DATA_SOURCE !== "api";
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/** Renders the freshness note from the contract's dataFreshness field
+ * (foundation spec §6.3): last-load time, amber when older than 24 h. */
+function freshnessText(loadedAt: string | null | undefined): {
+  text: string;
+  stale: boolean;
+} {
+  if (!loadedAt) return { text: "Data freshness unavailable", stale: true };
+  const at = new Date(loadedAt);
+  // stale = older than the daily 06:00 ET run should ever leave it
+  const stale = Date.now() - at.getTime() > DAY_MS;
+  const when = at.toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZone: "America/New_York",
+  });
+  const prefix = IS_SAMPLE_MODE ? "Sample data" : "NFL data";
+  return { text: `${prefix} · updated ${when} ET`, stale };
+}
+
+/** The freshness note (always visible, foundation spec §10). */
+function FreshNote() {
+  const freshness = useFreshness();
+  const { text, stale } = freshnessText(freshness.data?.statsLoadedAt);
+  return (
+    <span
+      className={stale ? `${styles.fresh} ${styles.stale}` : styles.fresh}
+      title={stale ? "Data is older than 24 hours" : undefined}
+    >
+      <span className={styles.dot} aria-hidden />
+      <span className={styles.freshTxt}>
+        {text}
+        {stale ? " · stale" : ""}
+      </span>
+    </span>
+  );
+}
 
 /** Sticky bar above every screen; collapses per the prototype's breakpoints. */
 export function TopBar() {
@@ -16,12 +57,13 @@ export function TopBar() {
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // listeners exist only while the menu is open
     if (!menuOpen) return;
-    const onDown = (e: MouseEvent) => {
-      if (!menuRef.current?.contains(e.target as Node)) setMenuOpen(false);
+    const onDown = (event: MouseEvent) => {
+      if (!menuRef.current?.contains(event.target as Node)) setMenuOpen(false);
     };
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMenuOpen(false);
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
     };
     document.addEventListener("mousedown", onDown);
     document.addEventListener("keydown", onKey);
@@ -31,6 +73,7 @@ export function TopBar() {
     };
   }, [menuOpen]);
 
+  // initials from the first letters of up to two name parts
   const initials = (user?.name ?? "?")
     .split(/\s+/)
     .map((part) => part.charAt(0))
@@ -40,14 +83,7 @@ export function TopBar() {
 
   return (
     <header className={styles.topbar}>
-      <span className={styles.fresh}>
-        <span className={styles.dot} aria-hidden />
-        <span className={styles.freshTxt}>
-          {SAMPLE_MODE
-            ? "Sample data · daily refresh arrives with the API"
-            : "NFL data · updated daily by 06:00 ET"}
-        </span>
-      </span>
+      <FreshNote />
       <span className={styles.spacer} />
       <div className={styles.acctWrap} ref={menuRef}>
         <button

@@ -1,0 +1,44 @@
+/* No-account / account-error state — plain centered message, no data. */
+
+.wrap {
+  min-height: 60vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.panel {
+  max-width: 420px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px 24px;
+  text-align: center;
+}
+
+.panel h1 {
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+
+.panel p {
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.btn {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--text);
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn:hover {
+  border-color: var(--line-2);
+}

@@ -1,0 +1,99 @@
+/* Scrim + modal shells — ported from prototype (.scrim, .pcard, modal sizing). */
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 9, 14, 0.6);
+  backdrop-filter: blur(2px);
+  z-index: 100;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.centered {
+  justify-content: center;
+  align-items: flex-start;
+  padding: 3vh 12px;
+}
+
+.panel {
+  width: min(1060px, 96vw);
+  background: var(--bg);
+  border-left: 1px solid var(--line-2);
+  height: 100%;
+  overflow: auto;
+  box-shadow: var(--shadow-pop);
+  animation: slidein 0.18s ease;
+}
+
+.panelCentered {
+  width: min(980px, 96vw);
+  height: auto;
+  max-height: 94vh;
+  border: 1px solid var(--line-2);
+  border-radius: 14px;
+  margin: auto;
+  animation: popin 0.18s ease;
+}
+
+@keyframes slidein {
+  from {
+    transform: translateX(24px);
+    opacity: 0.6;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes popin {
+  from {
+    transform: scale(0.985);
+    opacity: 0.5;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .panelCentered {
+    animation: none;
+  }
+}
+
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+}
+
+.close {
+  margin-left: auto;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-2);
+  font-size: 16px;
+}
+
+.close:hover {
+  color: var(--text);
+  border-color: var(--line-2);
+}
+
+.body {
+  padding: 16px 18px;
+}

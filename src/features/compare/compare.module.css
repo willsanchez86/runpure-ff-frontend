@@ -1,0 +1,151 @@
+/* Compare modal — ported from prototype (.cmptable, .cmpchip, .lead). */
+
+.head {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  font-size: 15px;
+}
+
+.close {
+  margin-left: auto;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-2);
+  font-size: 16px;
+}
+
+.body {
+  padding: 16px 18px;
+}
+
+.cmptable {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.cmptable th,
+.cmptable td {
+  border-bottom: 1px solid var(--line);
+  padding: 8px 12px;
+  text-align: right;
+  white-space: nowrap;
+  font-size: 12.5px;
+}
+
+.cmptable th.l,
+.cmptable td.l,
+.cmptable td:first-child,
+.cmptable th:first-child {
+  text-align: left;
+}
+
+.cmptable tbody td {
+  height: 34px;
+}
+
+.cmptable tbody tr:hover td {
+  background: rgba(255, 255, 255, 0.022);
+}
+
+.cmpchip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+}
+
+.ci {
+  min-width: 0;
+}
+
+.cn {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--text);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+  display: block;
+}
+
+.cn:hover {
+  color: var(--accent-2);
+  text-decoration: underline;
+}
+
+.cs {
+  font-size: 11px;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cmprm {
+  margin-left: 4px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--text-2);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+  flex: none;
+}
+
+.cmprm:hover {
+  color: var(--text);
+  border-color: var(--line-2);
+}
+
+.lead {
+  background: var(--good-soft);
+}
+
+.bestmark {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--good);
+  border: 1px solid var(--good-soft);
+  border-radius: 4px;
+  padding: 0 4px;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+.cmpspark td {
+  height: 38px;
+}
+
+.cmpsec td {
+  background: var(--panel-2);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  height: 28px;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  font-size: 12px;
+}

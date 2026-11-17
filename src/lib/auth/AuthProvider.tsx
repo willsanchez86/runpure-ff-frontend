@@ -12,6 +12,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { clearSessionCache } from "@/lib/api/queryClient";
 import { getFirebaseAuth, isFirebaseConfigured } from "./firebase";
 
 /** The signed-in account as the shell displays it. */
@@ -54,6 +55,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     let unsubscribe = () => {};
     void (async () => {
       if (!isFirebaseConfigured) {
+        // stub mode: a session flag stands in for Firebase until config exists
         const hasStub = sessionStorage.getItem(STUB_KEY) === "1";
         await Promise.resolve();
         if (!flags.cancelled) {
@@ -68,6 +70,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const auth = await getFirebaseAuth();
       const { onAuthStateChanged } = await import("@firebase/auth");
       if (flags.cancelled) return;
+      // real mode: Firebase pushes session changes; mirror them into state
       unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
         setSession(
           firebaseUser
@@ -102,6 +105,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signOutUser = useCallback(async () => {
+    // A second account in this browser must never see this one's data
+    // (ADR-0001; foundation spec §6.3).
+    clearSessionCache();
     if (!isFirebaseConfigured) {
       sessionStorage.removeItem(STUB_KEY);
       setSession({ status: "signedOut", user: null });

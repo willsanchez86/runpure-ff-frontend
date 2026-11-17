@@ -66,7 +66,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return;
       }
       const auth = await getFirebaseAuth();
-      const { onAuthStateChanged } = await import("firebase/auth");
+      const { onAuthStateChanged } = await import("@firebase/auth");
       if (flags.cancelled) return;
       unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
         setSession(
@@ -97,7 +97,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     const auth = await getFirebaseAuth();
     const { GoogleAuthProvider, signInWithPopup } =
-      await import("firebase/auth");
+      await import("@firebase/auth");
     await signInWithPopup(auth, new GoogleAuthProvider());
   }, []);
 
@@ -108,7 +108,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return;
     }
     const auth = await getFirebaseAuth();
-    const { signOut } = await import("firebase/auth");
+    const { signOut } = await import("@firebase/auth");
     await signOut(auth);
   }, []);
 

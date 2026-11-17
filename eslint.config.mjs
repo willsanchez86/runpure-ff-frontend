@@ -27,6 +27,14 @@ const eslintConfig = defineConfig([
     },
     plugins: { jsdoc },
     rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          ignoreRestSiblings: true,
+        },
+      ],
       "jsdoc/require-jsdoc": [
         "error",
         {

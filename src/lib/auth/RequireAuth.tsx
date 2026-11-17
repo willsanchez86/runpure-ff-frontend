@@ -16,6 +16,7 @@ export function RequireAuth({ children }: { children: ReactNode }) {
     if (status === "signedOut") router.replace("/sign-in");
   }, [status, router]);
 
+  // nothing renders (and nothing fetches) until the session answers
   if (status !== "signedIn") return null;
   return <>{children}</>;
 }

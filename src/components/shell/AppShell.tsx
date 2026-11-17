@@ -9,6 +9,7 @@ import { TopBar } from "./TopBar";
 export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className={styles.app}>
+      {/* keyboard users can jump straight past the nav */}
       <a href="#main" className="sr-only">
         Skip to content
       </a>

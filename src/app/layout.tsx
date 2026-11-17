@@ -2,6 +2,7 @@
  * custom-property layer (ADR-0018). System font stack only — no web fonts
  * (design-language.md). AuthProvider mounts once here (spec §5). */
 import type { Metadata } from "next";
+import { QueryProvider } from "@/lib/api/QueryProvider";
 import { AuthProvider } from "@/lib/auth/AuthProvider";
 import "../styles/tokens.css";
 import "./globals.css";
@@ -18,7 +19,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en">
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        <QueryProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </QueryProvider>
       </body>
     </html>
   );

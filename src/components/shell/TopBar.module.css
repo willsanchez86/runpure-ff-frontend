@@ -30,6 +30,14 @@
   flex: none;
 }
 
+.stale {
+  color: var(--warn);
+}
+
+.stale .dot {
+  background: var(--warn);
+}
+
 .spacer {
   margin-left: auto;
 }

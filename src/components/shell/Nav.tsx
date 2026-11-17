@@ -44,6 +44,7 @@ export function Nav() {
               ? `${styles.item} ${styles.on}`
               : styles.item
           }
+          // active route: accent pill + aria-current for assistive tech
           aria-current={pathname.startsWith(item.href) ? "page" : undefined}
         >
           {item.label}
@@ -54,6 +55,7 @@ export function Nav() {
       {SOON_ITEMS.map((label) => (
         <span
           key={label}
+          // later-phase items are visible but non-clickable (no dead ends)
           className={`${styles.item} ${styles.soon}`}
           aria-disabled="true"
           title="Planned for a later phase"

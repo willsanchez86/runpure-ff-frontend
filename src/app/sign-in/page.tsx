@@ -16,17 +16,22 @@ export default function SignInPage() {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
+    // an existing session skips the sign-in screen entirely
     if (status === "signedIn") router.replace("/players");
   }, [status, router]);
 
+  // render only in the signed-out state; loading stays blank
   if (status !== "signedOut") return null;
 
   const onSignIn = () => {
     setBusy(true);
     setError(null);
-    signInWithGoogle().catch((e: unknown) => {
+    // popup failure surfaces inline and re-enables the button
+    signInWithGoogle().catch((err: unknown) => {
       setBusy(false);
-      setError(e instanceof Error ? e.message : "Sign-in failed. Try again.");
+      setError(
+        err instanceof Error ? err.message : "Sign-in failed. Try again.",
+      );
     });
   };
 

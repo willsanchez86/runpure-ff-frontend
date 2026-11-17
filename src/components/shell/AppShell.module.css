@@ -1,0 +1,28 @@
+/* Shell grid — ported from prototype styles.css (.app, main, #view). */
+
+.app {
+  display: grid;
+  grid-template-columns: 216px 1fr;
+  min-height: 100vh;
+}
+
+.main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.view {
+  padding: 20px 24px 48px;
+  max-width: 1500px;
+  width: 100%;
+}
+
+@media (max-width: 980px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+  .view {
+    padding: 14px;
+  }
+}

@@ -1,7 +1,8 @@
 /** Root layout (foundation spec §2): dark shell base; tokens.css is the global
  * custom-property layer (ADR-0018). System font stack only — no web fonts
- * (design-language.md). */
+ * (design-language.md). AuthProvider mounts once here (spec §5). */
 import type { Metadata } from "next";
+import { AuthProvider } from "@/lib/auth/AuthProvider";
 import "../styles/tokens.css";
 import "./globals.css";
 
@@ -16,7 +17,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }

@@ -1,0 +1,7 @@
+.next/
+node_modules/
+package-lock.json
+generated/
+public/
+# Verbatim copy of the planning repo's design/tokens.css — never reformatted (AGENTS.md rule 6)
+src/styles/tokens.css

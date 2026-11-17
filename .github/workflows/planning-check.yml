@@ -1,0 +1,21 @@
+name: planning-refs
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+jobs:
+  planning-refs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/runpure-ff-planning
+          ref: main
+          path: planning
+      - uses: actions/setup-node@v4
+        with: { node-version: 24 }
+      - env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: node scripts/check-planning-refs.mjs planning
+      - name: tokens.css must match the planning repo (foundation spec P4)
+        run: node scripts/check-tokens.mjs planning

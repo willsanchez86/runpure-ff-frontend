@@ -1,0 +1,27 @@
+# Adapted from the owner's repo-template for a root-level npm project.
+# Covers production dependency advisories only — not SAST, secret scanning, or
+# authorization tests. Require this job alongside `verify` in the branch ruleset.
+name: Security baseline
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  security-baseline:
+    name: security-baseline
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: Audit npm production dependencies (high and critical)
+        run: npm audit --omit=dev --audit-level=high

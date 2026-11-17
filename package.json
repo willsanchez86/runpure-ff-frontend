@@ -1,0 +1,41 @@
+{
+  "name": "runpure-ff-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "git config core.hooksPath .githooks"
+  },
+  "dependencies": {
+    "next": "16.4.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^6.3.0",
+    "eslint": "^10.15.0",
+    "eslint-config-next": "16.4.6",
+    "eslint-plugin-jsdoc": "^65.4.9",
+    "jsdom": "^31.0.1",
+    "prettier": "^3.10.1",
+    "typescript": "~6.0",
+    "typescript-eslint": "^8.73.0",
+    "vitest": "^5.1.0"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "description": "Runpure FF frontend: Next.js app for Fantasy Workbench Phase 1 (player explorer, NFL scores and schedule)"
+}

@@ -1,0 +1,161 @@
+query Players($season: Int!) {
+  players(season: $season) {
+    id
+    name
+    position
+    team
+    jerseyNumber
+    age
+    heightIn
+    weightLb
+    college
+    rookieYear
+    yearsExp
+    draftYear
+    draftRound
+    draftPick
+    injuryStatus
+    practiceStatus
+  }
+}
+
+query Teams($season: Int!) {
+  teams(season: $season) {
+    abbr
+    city
+    nickname
+    name
+    conference
+    division
+    stadium
+    roof
+    surface
+    headCoach
+    byeWeek
+  }
+}
+
+query Games($season: Int!) {
+  games(season: $season) {
+    id
+    season
+    phase
+    week
+    kickoff
+    homeTeam
+    awayTeam
+    homeScore
+    awayScore
+    overtime
+    final
+    stadium
+    roof
+    surface
+    temperatureF
+    windMph
+    spreadLine
+    totalLine
+    favorite
+    homeQb
+    awayQb
+    homeCoach
+    awayCoach
+    homeRestDays
+    awayRestDays
+    divisionGame
+  }
+}
+
+query StatLines($season: Int!, $after: String, $limit: Int) {
+  statLines(season: $season, after: $after, limit: $limit) {
+    nextCursor
+    items {
+      __typename
+      playerId
+      week
+      teamPlayedFor
+      opponent
+      home
+      snapPct
+      ... on QbStatLine {
+        attempts
+        completions
+        passYards
+        passTds
+        interceptions
+        sacksTaken
+        sackYards
+        carries
+        rushYards
+        rushTds
+        fumbles
+        fumblesLost
+        firstDowns
+      }
+      ... on RbStatLine {
+        carries
+        rushYards
+        rushTds
+        targets
+        receptions
+        recYards
+        recTds
+        fumbles
+        fumblesLost
+        firstDowns
+        targetShare
+        airYardsShare
+        wopr
+      }
+      ... on WrTeStatLine {
+        targets
+        receptions
+        recYards
+        recTds
+        carries
+        rushYards
+        fumbles
+        fumblesLost
+        firstDowns
+        targetShare
+        airYardsShare
+        wopr
+      }
+      ... on KStatLine {
+        fgMade
+        fgMissed
+        fg50Plus
+        xpMade
+      }
+      ... on DefStatLine {
+        pointsAllowed
+        yardsAllowed
+        sacks
+        interceptions
+        fumbleRecoveries
+        tds
+        safeties
+      }
+      ... on IdpStatLine {
+        soloTackles
+        assistTackles
+        sacks
+        tacklesForLoss
+        interceptions
+        passesDefended
+        forcedFumbles
+        fumbleRecoveries
+        qbHits
+        tds
+      }
+    }
+  }
+}
+
+query Freshness {
+  dataFreshness {
+    playersLoadedAt
+    statsLoadedAt
+    gamesLoadedAt
+  }
+}

@@ -150,7 +150,7 @@ export interface TeamInfo {
   name: string;
   division: string;
   byeWeek: number;
-  roof: string;
-  surface: string;
-  stadium: string;
+  roof: string | null;
+  surface: string | null;
+  stadium: string | null;
 }

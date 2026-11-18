@@ -18,6 +18,7 @@ import { CAT_ORDER, COLS, PRESETS } from "@/features/players/columns";
 import pstyles from "@/features/players/players.module.css";
 import styles from "./columns.module.css";
 
+// IDP removed from Phase 1 (owner, 2026-11-17)
 const POS_OPTIONS: PosFilter[] = [
   "ALL",
   "QB",
@@ -27,10 +28,6 @@ const POS_OPTIONS: PosFilter[] = [
   "K",
   "DEF",
   "FLEX",
-  "IDP",
-  "DB",
-  "LB",
-  "DL",
 ];
 
 type Draft = Pick<

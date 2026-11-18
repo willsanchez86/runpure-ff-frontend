@@ -11,12 +11,9 @@ import { useSettings } from "@/lib/settings/SettingsProvider";
 import styles from "./players.module.css";
 
 const PILLS: PosFilter[] = ["ALL", "QB", "RB", "WR", "TE", "K", "DEF"];
+// IDP options removed from Phase 1 (owner, 2026-11-17)
 const MORE: { v: PosFilter; label: string }[] = [
   { v: "FLEX", label: "FLEX · RB/WR/TE" },
-  { v: "IDP", label: "IDP · DB/DL/LB" },
-  { v: "DB", label: "DB" },
-  { v: "LB", label: "LB" },
-  { v: "DL", label: "DL" },
 ];
 
 /** A dropdown shell: button + panel, outside-click/ESC close. */

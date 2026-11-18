@@ -2,7 +2,7 @@
 
 1. Build only what a PRD and spec on `runpure-ff-planning` `main` describe. Never copy planning documents here; link to them. This repo implements: `specs/ff-frontend-foundation-spec.md`, `specs/ff-player-explorer-spec.md`, `specs/ff-nfl-scores-and-schedule-spec.md`.
 2. Every pull request fills in `Implements:` with the PRD, spec and ADR paths it carries out.
-3. Before an ADR's first implementing code merges, its planning-repo file must have an **Implementation started** line.
+3. Before an ADR's first implementing code merges, its planning-repo file must have an **Implementation started** line. Standing authorization (owner, 2026-11-17): Claude adds that line — dated to the first implementing commit — in the same change set as the pull request it gates; the owner reviews it in the planning PR.
 4. Never commit with `--no-verify`. Never push to `main`; open a pull request.
 5. Comments (owner, 2026-11-17): a JSDoc comment on every exported function, type and constant (what it does, plus any constraint a caller must know); one header comment per module naming the spec section or ADR it implements; short inline comments describing the logic throughout — clear and concise, never excessive. `npm run lint` checks the JSDoc.
 6. `src/styles/tokens.css` is a verbatim copy of the planning repo's `design/tokens.css` plus a provenance header. Never edit it here; tokens change in the planning repo first (CI enforces the match).

@@ -141,6 +141,9 @@ export interface SeasonModel {
   results: Map<string, Map<number, WeekResult>>;
   /** team -> week -> opponent abbr (null = bye). */
   opponents: Map<string, Map<number, string | null>>;
+  /** "team|week" -> that team's QB pass attempts (TGT% denominator),
+   * precomputed once so per-player stats stay O(1) per line. */
+  teamPassAttempts: Map<string, number>;
   games: Game[];
 }
 

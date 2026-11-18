@@ -2,6 +2,10 @@
  * (specs/ff-nfl-scores-and-schedule-spec.md; foundation spec §13 step 6). */
 import { ScreenPlaceholder } from "@/components/shell/ScreenPlaceholder";
 
+/** Auth-gated and fully client-dynamic: nothing renders until the session
+ * resolves, so Next's instant-navigation prevalidation cannot apply here. */
+export const instant = false;
+
 /** NFL screen placeholder. */
 export default function NflPage() {
   return (

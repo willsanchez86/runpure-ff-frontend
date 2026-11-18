@@ -97,6 +97,13 @@ export function buildSeasonModel(
     linesByPlayer.set(line.playerId, weekMap);
   }
   const weeks = new Map<string, Map<number, WeekEntry>>();
+  // TGT% denominator, built in the same pass (perf: avoids an O(n^2) rescan)
+  const teamPassAttempts = new Map<string, number>();
+  for (const line of data.statLines) {
+    if (line.position !== "QB") continue;
+    const key = `${line.teamPlayedFor}|${String(line.week)}`;
+    teamPassAttempts.set(key, (teamPassAttempts.get(key) ?? 0) + line.attempts);
+  }
   for (const player of data.players) {
     const weekMap = new Map<number, WeekEntry>();
     const lines = linesByPlayer.get(player.id);
@@ -260,6 +267,7 @@ export function buildSeasonModel(
     projection,
     results,
     opponents,
+    teamPassAttempts,
     games: data.games,
   };
 }
@@ -321,23 +329,9 @@ export function playerRangeStats(
   const vals = entries.map((entry) => entry.pts);
   const lines = entries.map((entry) => entry.line);
 
-  // team pass attempts per week (for TGT%): QB attempts on the same team
-  // TGT% denominator: that team's QB pass attempts in the same week
-  const teamAtt = (team: string, week: number): number => {
-    let att = 0;
-    for (const [pid, wm] of model.weeks) {
-      if (model.playerById.get(pid)?.position !== "QB") continue;
-      const entry = wm.get(week);
-      if (
-        entry?.kind === "played" &&
-        entry.line.position === "QB" &&
-        entry.line.teamPlayedFor === team
-      ) {
-        att += entry.line.attempts;
-      }
-    }
-    return Math.max(1, att);
-  };
+  // TGT% denominator from the model's precomputed team pass attempts (O(1))
+  const teamAtt = (team: string, week: number): number =>
+    Math.max(1, model.teamPassAttempts.get(`${team}|${String(week)}`) ?? 0);
 
   const snaps = lines
     .map((line) => line.snapPct)

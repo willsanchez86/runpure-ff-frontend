@@ -93,7 +93,17 @@ export function PlayersTable({
   const bottomPad = Math.max(0, (sorted.length - last) * rowH);
   const window = sorted.slice(first, last);
 
-  const totalCols = cols.length + 3;
+  // first column of each category gets the visual group separator
+  const groupStarts = new Set<number>();
+  {
+    let at = 0;
+    for (const group of groupSpans(cols)) {
+      groupStarts.add(at);
+      at += group.span;
+    }
+  }
+
+  const totalCols = cols.length + 4;
 
   return (
     <div className={styles.card}>
@@ -111,7 +121,7 @@ export function PlayersTable({
         >
           <thead>
             <tr className="grouprow">
-              <th className="blank ns l" colSpan={3} />
+              <th className="blank ns l" colSpan={4} />
               {groupSpans(cols).map((group, index) => (
                 <th
                   key={index}
@@ -124,14 +134,20 @@ export function PlayersTable({
             </tr>
             <tr>
               <th className={`ns ${styles.tickCell}`} aria-label="Select" />
+              <th
+                className={`ns ${styles.rankCell}`}
+                title="Row rank under the current sort"
+              >
+                #
+              </th>
               <th className="l ns">Player</th>
               <th className="l ns">Pos</th>
-              {cols.map((col) => {
+              {cols.map((col, colIndex) => {
                 const isSorted = sortKey === col.key;
                 return (
                   <th
                     key={col.key}
-                    className={`${col.left ? "l " : ""}${isSorted ? "sorted" : ""}`}
+                    className={`${col.left ? "l " : ""}${isSorted ? "sorted " : ""}${groupStarts.has(colIndex) ? styles.groupStart : ""}`}
                     title={col.tip}
                     aria-sort={
                       isSorted
@@ -162,9 +178,11 @@ export function PlayersTable({
               </tr>
             )}
             {/* only the visible window of rows is rendered (PE1) */}
-            {window.map((row) => (
+            {window.map((row, windowIndex) => (
               <PlayerRow
                 key={row.player.id}
+                rank={first + windowIndex + 1}
+                groupStarts={groupStarts}
                 row={row}
                 cols={cols}
                 ctx={ctx}
@@ -194,6 +212,8 @@ export function PlayersTable({
  * subline · pos tag · stat cells. Click opens the card. */
 function PlayerRow({
   row,
+  rank,
+  groupStarts,
   cols,
   ctx,
   model,
@@ -203,6 +223,9 @@ function PlayerRow({
   onOpen,
 }: {
   row: Row;
+  /** 1-based position under the current sort (the list's # column). */
+  rank: number;
+  groupStarts: Set<number>;
   cols: ColDef[];
   ctx: ColCtx;
   model: SeasonModel;
@@ -240,6 +263,9 @@ function PlayerRow({
           }}
         />
       </td>
+      <td className={styles.rankCell}>
+        <span className="num">{rank}</span>
+      </td>
       <td className="l">
         <span className={styles.pcell}>
           <button
@@ -270,8 +296,11 @@ function PlayerRow({
               )}
             </span>
             <span className={styles.psub}>
-              {player.position} - {player.team ?? "FA"}
-              {bye ? `(${String(bye)})` : ""}
+              <span className={styles.psubPos} data-pos={player.position}>
+                {player.position}
+              </span>
+              {` · ${player.team ?? "FA"}`}
+              {bye ? ` (${String(bye)})` : ""}
               {next ? ` · vs ${next.opponent}` : ""}
             </span>
           </span>
@@ -280,8 +309,11 @@ function PlayerRow({
       <td className="l">
         <PosTag pos={player.position} />
       </td>
-      {cols.map((col) => (
-        <td key={col.key} className={col.left ? "l" : undefined}>
+      {cols.map((col, colIndex) => (
+        <td
+          key={col.key}
+          className={`${col.left ? "l " : ""}${groupStarts.has(colIndex) ? styles.groupStart : ""}`}
+        >
           {col.render(row, ctx)}
         </td>
       ))}

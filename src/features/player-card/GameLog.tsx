@@ -71,6 +71,15 @@ function HeatTable({
   const pos = player?.position ?? "WR";
   const spec = logSpec(pos);
   const cols = spec.flatMap(([, cs]) => cs);
+  // first column of each stat group gets the visual separator
+  const groupStarts = new Set<number>();
+  {
+    let at = 0;
+    for (const [, groupCols] of spec) {
+      groupStarts.add(at);
+      at += groupCols.length;
+    }
+  }
 
   const rows: { week: number; entry: WeekEntry }[] = [];
   if (weeks) {
@@ -241,12 +250,15 @@ function HeatTable({
                       ? `${line.home ? "vs" : "@"} ${line.opponent}`
                       : "BYE"}
                   </td>
-                  {cols.map((column) => {
+                  {cols.map((column, colIndex) => {
+                    const sep = groupStarts.has(colIndex)
+                      ? ` ${styles.groupStart}`
+                      : "";
                     if (column.proj) {
                       return (
                         <td
                           key={column.k}
-                          className={styles.projcell}
+                          className={`${styles.projcell}${sep}`}
                           title="Projections have no Phase 1 source — designed-for stub."
                         >
                           –
@@ -257,7 +269,7 @@ function HeatTable({
                     return (
                       <td
                         key={column.k}
-                        className={column.fpts ? "fpts" : undefined}
+                        className={`${column.fpts ? "fpts" : ""}${sep}`}
                         style={{ background: heatBg(column, value) }}
                       >
                         <span className="num">{fmtCell(column, value)}</span>

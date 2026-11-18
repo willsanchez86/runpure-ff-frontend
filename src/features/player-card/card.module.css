@@ -424,7 +424,8 @@
   font-size: 11px;
   color: var(--muted);
   font-weight: 600;
-  text-align: right;
+  /* stat values centre under their headers, Sleeper-style */
+  text-align: center;
   padding: 7px 9px;
   border-bottom: 1px solid var(--line);
   white-space: nowrap;
@@ -443,6 +444,11 @@
   border-left: 1px solid var(--line);
 }
 
+/* Sleeper-style category separation: a full background-coloured gap */
+.groupStart {
+  border-left: 14px solid var(--bg);
+}
+
 .heatlog thead th.blank {
   color: transparent;
   border-left: 0;
@@ -454,7 +460,7 @@
 }
 
 .heatlog td {
-  text-align: right;
+  text-align: center;
   padding: 0 9px;
   height: 30px;
   border-bottom: 1px solid var(--line);

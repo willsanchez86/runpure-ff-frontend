@@ -39,10 +39,11 @@ export interface Team {
   name: string;
   conference: string;
   division: string;
-  stadium: string;
-  roof: "dome" | "open" | "retractable";
-  surface: "grass" | "turf";
-  headCoach: string;
+  stadium: string | null;
+  /** "dome" | "open" | "retractable" where the source carries it. */
+  roof: string | null;
+  surface: string | null;
+  headCoach: string | null;
   byeWeek: number;
 }
 

@@ -1,0 +1,5 @@
+# Normalize all text to LF in the repo and the working tree (Prettier writes LF;
+# this ends the CRLF phantom-modified churn on Windows).
+* text=auto eol=lf
+*.ico binary
+*.png binary

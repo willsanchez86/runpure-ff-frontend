@@ -156,4 +156,6 @@ export interface TeamInfo {
   roof: string | null;
   surface: string | null;
   stadium: string | null;
+  logoUrl: string | null;
+  color: string | null;
 }

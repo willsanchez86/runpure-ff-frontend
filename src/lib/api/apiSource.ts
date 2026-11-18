@@ -201,6 +201,8 @@ async function fetchSeason(season: number): Promise<SeasonData> {
       surface: team.surface ?? null,
       headCoach: team.headCoach ?? null,
       byeWeek: team.byeWeek ?? 0,
+      logoUrl: team.logoUrl ?? null,
+      color: team.color ?? null,
     })),
     statLines,
     games: gamesData.games.map((game) => ({

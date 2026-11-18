@@ -45,6 +45,10 @@ export interface Team {
   surface: string | null;
   headCoach: string | null;
   byeWeek: number;
+  /** Team logo image URL (nflverse; squared preferred). */
+  logoUrl: string | null;
+  /** Primary team colour, hex. */
+  color: string | null;
 }
 
 /** Shared identity on every weekly line (player spec §9.2 interface). */

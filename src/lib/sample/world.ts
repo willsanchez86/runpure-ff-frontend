@@ -367,6 +367,8 @@ export function identity(): Identity {
     roof: rawTeam[6],
     surface: rawTeam[7],
     headCoach: COACHES[teamIndex] ?? "—",
+    logoUrl: null,
+    color: null,
   }));
   const abbrs = teams.map((team) => team.abbr);
   const used = new Set<string>();

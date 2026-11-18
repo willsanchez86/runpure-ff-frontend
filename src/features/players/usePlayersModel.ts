@@ -17,6 +17,7 @@ export function useSeasonModel(season: number): {
   model: SeasonModel | null;
   isLoading: boolean;
   error: Error | null;
+  retry: () => void;
 } {
   const { settings } = useSettings();
   const query = useSeasonData(season);
@@ -32,6 +33,9 @@ export function useSeasonModel(season: number): {
     model,
     isLoading: query.isLoading,
     error: query.isError ? query.error : null,
+    retry: () => {
+      void query.refetch();
+    },
   };
 }
 

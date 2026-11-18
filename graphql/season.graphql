@@ -32,6 +32,8 @@ query Teams($season: Int!) {
     surface
     headCoach
     byeWeek
+    logoUrl
+    color
   }
 }
 

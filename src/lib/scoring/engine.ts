@@ -52,6 +52,8 @@ export function buildSeasonModel(
         roof: team.roof,
         surface: team.surface,
         stadium: team.stadium,
+        logoUrl: team.logoUrl,
+        color: team.color,
       },
     ]),
   );
